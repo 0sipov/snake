@@ -11,22 +11,6 @@ class Snake {
       { x: this.x, y: this.y },
       { x: this.x, y: this.y },
       { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
-      { x: this.x, y: this.y },
     ];
     this.rotateX = -1;
     this.rotateY = 0;
