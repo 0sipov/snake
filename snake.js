@@ -6,7 +6,28 @@ class Snake {
     this.x = x;
     this.y = y;
     this.size = size;
-    this.tail = [{ x: this.x, y: this.y }];
+    this.tail = [
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y },
+    ];
     this.rotateX = -1;
     this.rotateY = 0;
   }
@@ -74,7 +95,7 @@ let snake = new Snake(canvas.width / 2, canvas.height / 2, 10);
 let apple = new Apple();
 
 function gameLoop() {
-  setInterval(show, 1000 / 12);
+  setInterval(show, 1000 / 15);
 }
 
 window.onload = () => gameLoop();
@@ -82,8 +103,10 @@ window.onload = () => gameLoop();
 function show() {
   update();
   checkHitWall();
+  checkHitTail();
   eatApple();
   drow();
+  console.log(snake.tail.length);
 }
 
 function update() {
@@ -130,6 +153,20 @@ function checkHitWall() {
   }
   if (headTail.y == canvas.height) {
     headTail.y = 0;
+  }
+}
+
+function checkHitTail() {
+  let headTail = snake.tail[snake.tail.length - 1];
+  let bodyTail = snake.tail.slice(0, snake.tail.length - 1);
+  let hitSectionIndex = null;
+  let isHit = bodyTail.some((e, index) => {
+    hitSectionIndex = index;
+    return e.x === headTail.x && e.y === headTail.y;
+  });
+  if (isHit) {
+    console.log(hitSectionIndex);
+    snake.tail.splice(0, hitSectionIndex + 1);
   }
 }
 
