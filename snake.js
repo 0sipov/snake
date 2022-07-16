@@ -15,26 +15,26 @@ class Snake {
     let newRect;
     if (this.rotateX === 1) {
       newRect = {
-        x: this.tail[this.tail.length - 1].x + 5,
+        x: this.tail[this.tail.length - 1].x + this.size,
         y: this.tail[this.tail.length - 1].y,
       };
     }
     if (this.rotateX === -1) {
       newRect = {
-        x: this.tail[this.tail.length - 1].x - 5,
+        x: this.tail[this.tail.length - 1].x - this.size,
         y: this.tail[this.tail.length - 1].y,
       };
     }
     if (this.rotateY === 1) {
       newRect = {
         x: this.tail[this.tail.length - 1].x,
-        y: this.tail[this.tail.length - 1].y + 5,
+        y: this.tail[this.tail.length - 1].y + this.size,
       };
     }
     if (this.rotateY === -1) {
       newRect = {
         x: this.tail[this.tail.length - 1].x,
-        y: this.tail[this.tail.length - 1].y - 5,
+        y: this.tail[this.tail.length - 1].y - this.size,
       };
     }
 
@@ -45,42 +45,45 @@ class Snake {
 
 class Apple {
   constructor() {
-    this.color = "pink";
-    this.size = snake.size;
+    let isTouching;
 
-    // let isTouching;
-    // while (true) {
-    //   isTouching = false;
-    //   this.x =
-    //     Math.floor((Math.random() * canvas.width) / snake.size) * snake.size;
-    //   this.y =
-    //     Math.floor((Math.random() * canvas.height) / snake.size) * snake.size;
+    while (true) {
+      isTouching = false;
+      this.x =
+        Math.floor((Math.random() * canvas.width) / snake.size) * snake.size;
+      this.y =
+        Math.floor((Math.random() * canvas.height) / snake.size) * snake.size;
 
-    //   for (let i = 1; i < snake.tail.length; i++) {
-    //     if (this.x === snake.tail[i].x && this.y === snake.tail[i].y) {
-    //       isTouching = true;
-    //     }
-    //   }
-    //   if (isTouching) {
-    //     break;
-    //   }
-    // }
+      for (let i = 0; i < snake.tail.length; i++) {
+        if (this.x == snake.tail[i].x && this.y == snake.tail[i].y) {
+          isTouching = true;
+        }
+      }
+
+      this.size = snake.size;
+      this.color = "red";
+
+      if (!isTouching) {
+        break;
+      }
+    }
   }
 }
 
-let snake = new Snake(canvas.width / 2, canvas.height / 2, 25);
-// const apple = new Apple();
+let snake = new Snake(canvas.width / 2, canvas.height / 2, 10);
+let apple = new Apple();
 
 function gameLoop() {
-  setInterval(show, 1000 / 15);
+  setInterval(show, 1000 / 12);
 }
 
 window.onload = () => gameLoop();
 
 function show() {
   update();
-  drow();
   checkHitWall();
+  eatApple();
+  drow();
 }
 
 function update() {
@@ -100,7 +103,17 @@ function drow() {
       "white"
     );
   }
-  // createRect(apple.x, apple.y, apple.size, apple.size, apple.color);
+  createRect(apple.x, apple.y, apple.size, apple.size, apple.color);
+}
+
+function eatApple() {
+  if (apple.x === snake.tail[0].x && apple.y === snake.tail[0].y) {
+    apple = new Apple();
+    snake.tail[snake.tail.length] = {
+      x: snake.tail[snake.tail.length - 1].x,
+      y: snake.tail[snake.tail.length - 1].y,
+    };
+  }
 }
 
 function checkHitWall() {
@@ -142,5 +155,4 @@ document.addEventListener("keydown", (e) => {
     snake.rotateX = -1;
     snake.rotateY = 0;
   }
-  console.log(`Klick: ${e.key}, ${window.event.type}`);
 });
